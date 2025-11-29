@@ -1,17 +1,73 @@
 package org.project;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+    public static void main(String[] args) {
+        try {
+            // Validate command-line arguments
+            if (args.length != 2) {
+                printUsage();
+                return;
+            }
+
+            String csvPath = args[0];
+            int mode = Integer.parseInt(args[1]);
+
+            // Load board and set up validation
+            Board board = new Board(csvPath);
+            ResultCollector collector = new ResultCollector();
+            SudokuValidator validator = SudokuValidatorFactory.create(mode);
+
+            // Perform validation
+            validator.validate(board, collector);
+
+            // Display results
+            if (collector.isValid()) {
+                System.out.println("VALID");
+            } else {
+                System.out.println("INVALID\n");
+                printDuplicates(collector);
+            }
+
+        } catch (Exception e) {
+            System.err.println("An error occurred: " + e.getMessage());
+            e.printStackTrace(); // acceptable for CLI debugging
+        }
+    }
+
+    private static void printUsage() {
+        System.out.println("Incorrect arguments.");
+        System.out.println("Usage:");
+        System.out.println("  java -jar SudokuValidator.jar <csv-path> <mode>");
+        System.out.println("Where:");
+        System.out.println("  <csv-path> : path to the 9x9 Sudoku CSV file");
+        System.out.println("  <mode>     : validation mode (0, 3, or 27)");
+        System.out.println();
+        System.out.println("Example:");
+        System.out.println("  java -jar SudokuValidator.jar board.csv 3");
+    }
+
+    private static void printDuplicates(ResultCollector collector) {
+        // Rows
+        for (DuplicateRecord d : collector.getRowDuplicates()) {
+            System.out.println(d);
+        }
+        if (!collector.getRowDuplicates().isEmpty()) {
+            System.out.println("------------------------------\n");
+        }
+
+        // Columns
+        for (DuplicateRecord d : collector.getColDuplicates()) {
+            System.out.println(d);
+        }
+        if (!collector.getColDuplicates().isEmpty()) {
+            System.out.println("------------------------------\n");
+        }
+
+        // Boxes
+        for (DuplicateRecord d : collector.getBoxDuplicates()) {
+            System.out.println(d);
+            System.out.println("------------------------------\n");
         }
     }
 }
