@@ -26,7 +26,7 @@ public class SingleBoxChecker implements Runnable {
                 }
             }
             List<DuplicateRecord> dups = du.checkBox(box);
-            collector.addAll(dups);
+            collector.addDuplicateBoxes(dups);
         } catch (Exception e) {
             e.printStackTrace();
         }

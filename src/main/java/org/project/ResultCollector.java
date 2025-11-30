@@ -29,4 +29,8 @@ public class ResultCollector {
         return duplicateBoxes;
     }
 
+    public boolean isValid() {
+        return duplicateRows.isEmpty()&&duplicateCols.isEmpty()&&duplicateBoxes.isEmpty();
+    }
+
 }

@@ -20,7 +20,7 @@ public class SingleColumnChecker implements Runnable {
             int[] col = new int[9];
             for (int r = 0; r < 9; r++) col[r] = board.get(r, colIndex);
             List<DuplicateRecord> dups = du.checkColumn(colIndex, col);
-            collector.addAll(dups);
+            collector.addDuplicateCols(dups);
         } catch (Exception e) {
             e.printStackTrace();
         }

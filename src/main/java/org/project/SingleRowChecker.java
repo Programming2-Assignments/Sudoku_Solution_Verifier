@@ -20,7 +20,7 @@ public class SingleRowChecker implements Runnable {
             int[] row = new int[9];
             for (int c = 0; c < 9; c++) row[c] = board.get(rowIndex, c);
             List<DuplicateRecord> dups = du.checkRow(rowIndex, row);
-            collector.addAll(dups);
+            collector.addDuplicateRows(dups);
         } catch (Exception e) {
             e.printStackTrace();
         }

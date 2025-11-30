@@ -1,5 +1,8 @@
 package org.project;
 
+import SudokuValidatorFactory.SudokuValidator;
+import SudokuValidatorFactory.SudokuValidatorFactory;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -16,10 +19,10 @@ public class Main {
             // Load board and set up validation
             Board board = new Board(csvPath);
             ResultCollector collector = new ResultCollector();
-            SudokuValidator validator = SudokuValidatorFactory.create(mode);
-
-            // Perform validation
-            validator.validate(board, collector);
+            SudokuValidator validator;
+            SudokuValidatorFactory factory = new SudokuValidatorFactory();
+            validator = factory.createValidator(mode, board, collector);
+            validator.validate();
 
             // Display results
             if (collector.isValid()) {
@@ -49,23 +52,23 @@ public class Main {
 
     private static void printDuplicates(ResultCollector collector) {
         // Rows
-        for (DuplicateRecord d : collector.getRowDuplicates()) {
+        for (DuplicateRecord d : collector.getDuplicateRows()) {
             System.out.println(d);
         }
-        if (!collector.getRowDuplicates().isEmpty()) {
+        if (!collector.getDuplicateRows().isEmpty()) {
             System.out.println("------------------------------\n");
         }
 
         // Columns
-        for (DuplicateRecord d : collector.getColDuplicates()) {
+        for (DuplicateRecord d : collector.getDuplicateCols()) {
             System.out.println(d);
         }
-        if (!collector.getColDuplicates().isEmpty()) {
+        if (!collector.getDuplicateCols().isEmpty()) {
             System.out.println("------------------------------\n");
         }
 
         // Boxes
-        for (DuplicateRecord d : collector.getBoxDuplicates()) {
+        for (DuplicateRecord d : collector.getDuplicateBoxes()) {
             System.out.println(d);
             System.out.println("------------------------------\n");
         }

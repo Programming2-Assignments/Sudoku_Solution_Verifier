@@ -19,7 +19,7 @@ public class RowChecker implements Runnable {
                 int[] row = new int[9];
                 for (int c = 0; c < 9; c++) row[c] = board.get(r, c);
                 List<DuplicateRecord> dups = du.checkRow(r, row);
-                collector.addAll(dups);
+                collector.addDuplicateRows(dups);
             }
         } catch (Exception e) {
             e.printStackTrace();
