@@ -25,7 +25,7 @@ public class SingleBoxChecker implements Runnable {
                     box[dr][dc] = board.get(startRow + dr, startCol + dc);
                 }
             }
-            List<DuplicateRecord> dups = du.checkBox(box);
+            List<DuplicateRecord> dups = du.checkBox(boxIndex,box);
             collector.addDuplicateBoxes(dups);
         } catch (Exception e) {
             e.printStackTrace();

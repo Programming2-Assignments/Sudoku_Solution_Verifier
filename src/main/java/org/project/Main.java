@@ -70,6 +70,8 @@ public class Main {
         // Boxes
         for (DuplicateRecord d : collector.getDuplicateBoxes()) {
             System.out.println(d);
+        }
+        if (!collector.getDuplicateBoxes().isEmpty()) {
             System.out.println("------------------------------\n");
         }
     }

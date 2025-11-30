@@ -55,8 +55,10 @@ public class DuplicateUtils {
         return duplicateRecords;
     }
 
-    public List<DuplicateRecord> checkBox(int[][] box){
+    public List<DuplicateRecord> checkBox(int boxIndex,int[][] box){
         HashMap<Integer, ArrayList<int[]>> map = new HashMap<>();
+        int startRow = (boxIndex / 3) * 3;
+        int startCol = (boxIndex % 3) * 3;
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
                 int value =box[i][j];
@@ -73,7 +75,7 @@ public class DuplicateUtils {
         for(int key : map.keySet()){
             if(map.get(key).size()>1){
                 for(int position[] : map.get(key)){
-                        DuplicateRecord dup = new DuplicateRecord(key,new int[]{position[0],position[1]},"BOX");
+                        DuplicateRecord dup = new DuplicateRecord(key,new int[]{position[0]+startRow,position[1]+startCol},"BOX");
                         duplicateRecords.add(dup);
                 }
             }
